@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
 const withAuth = (req, res, next) => {
     if (!req.session.logged_in) {
       res.redirect('/login');
-    } else {~
+    } else {
       next();
     }
   };
