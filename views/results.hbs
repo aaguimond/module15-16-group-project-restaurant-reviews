@@ -1,0 +1,18 @@
+{{#extend 'main'}}
+
+{{#content 'title'}}Search Results{{/content}}
+
+{{#content 'body'}}
+    <h1>Search Results</h1>
+    {{#if restaurants.length}}
+        <ul>
+            {{#each restaurants}}
+                <li>{{this.name}} - {{this.rating}}</li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>No restaurants found.</p>
+    {{/if}}
+{{/content}}
+
+{{/extend}}
