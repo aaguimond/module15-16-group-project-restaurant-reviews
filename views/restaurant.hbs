@@ -1,8 +1,5 @@
-{{#extend 'main'}}
 
-{{#content 'title'}}Restaurant Search Results{{/content}}
 
-{{#content 'body'}}
   <h1>Restaurants in {{query.location}}</h1>
   {{#if restaurants.data.length}}
     <ul>
@@ -17,6 +14,4 @@
   {{else}}
     <p>No restaurants found for "{{query.location}}".</p>
   {{/if}}
-{{/content}}
 
-{{/extend}}

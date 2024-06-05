@@ -1,11 +1,13 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
+const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser');
+
+
 
 
 module.exports = (app) => {
     // Set engine to display views as Handlebars
-    app.engine('hbs', exphbs({
+    app.engine('hbs', engine({
         // Engine will recognize hbs extension as handlebars files
         extname: 'hbs',
         // Our default view layout will be main.hbs
@@ -13,7 +15,9 @@ module.exports = (app) => {
         // Defining the directory our layouts are located at (main, etc)
         layoutsDir: __dirname + '/../views/layouts/',
         // Defining the directory our partials are located at (header, footer, etc)
-        partialsDir: __dirname + '/../views/partials/'
+        partialsDir: __dirname + '/../views/partials/',
+       
+
     }));
     app.set('view engine', 'hbs');
 
