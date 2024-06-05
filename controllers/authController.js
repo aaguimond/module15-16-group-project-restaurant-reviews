@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User } = require('./models/User.js');
 
 router.post('/login', async (req, res) => {
   try {
@@ -27,7 +27,6 @@ router.post('/login', async (req, res) => {
 }
 
 });
-
 
 
 const withAuth = (req, res, next) => {
