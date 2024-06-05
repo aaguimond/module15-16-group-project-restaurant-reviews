@@ -21,7 +21,13 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-})
+} catch (err) {
+  console.log(err);
+  res.status(500).json(err);
+}
+
+});
+
 
 
 const withAuth = (req, res, next) => {
