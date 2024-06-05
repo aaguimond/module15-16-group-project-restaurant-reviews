@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const app = express();
 
+
 // Importing middleware
 require('./middleware/setupMiddleware')(app);
 
