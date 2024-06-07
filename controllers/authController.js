@@ -21,20 +21,29 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-} catch (err) {
-  console.log(err);
-  res.status(500).json(err);
-}
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+    
+      res.json({ user: userData, message: 'You are now logged in!' });
+    });
 
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+})
+
+router.post('/logout', (req, res) => {
+  if (req.session.logged_in) {
+    // Remove the session variables
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
 });
 
 
-const withAuth = (req, res, next) => {
-    if (!req.session.logged_in) {
-      res.redirect('/login');
-    } else {
-      next();
-    }
-  };
-  
-  module.exports = withAuth;
+

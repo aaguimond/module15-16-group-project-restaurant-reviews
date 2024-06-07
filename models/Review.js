@@ -23,7 +23,7 @@ Review.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'restaurants',
+                model: 'restaurant',
                 key: 'id',
             },
         },
