@@ -20,7 +20,13 @@ router.post('/login', async (req, res) => {
         .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
-
+    
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+    
+      res.json({ user: userData, message: 'You are now logged in!' });
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -28,12 +34,4 @@ router.post('/login', async (req, res) => {
 });
 
 
-const withAuth = (req, res, next) => {
-    if (!req.session.logged_in) {
-      res.redirect('/login');
-    } else {
-      next();
-    }
-  };
-  
-  module.exports = withAuth;
+
