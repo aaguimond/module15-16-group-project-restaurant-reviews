@@ -1,12 +1,19 @@
+<h1>Search Results</h1>
+{{#each restaurants}}
+<div class="restaurant">
+    <h2>{{name}}</h2>
+    <p><strong>Address:</strong> {{address}}</p>
+    <p><strong>Email:</strong> {{email}}</p>
+    <p><strong>Phone:</strong> {{phone}}</p>
+    <p><strong>Website:</strong> <a href="{{website}}">{{website}}</a></p>
+    <p><strong>Price Level:</strong> {{priceLevel}}</p>
+    <p><strong>Hours:</strong> {{hours}}</p>
+    <div class="photos">
+        {{#each photos}}
+        <img src="{{this}}" alt="{{../name}}">
+        {{/each}}
+    </div>
+</div>
+{{/each}}
 
-    <h1>Search Results</h1>
-    {{#if restaurants.length}}
-        <ul>
-            {{#each restaurants}}
-                <li>{{this.name}} - {{this.rating}}</li>
-            {{/each}}
-        </ul>
-    {{else}}
-        <p>No restaurants found.</p>
-    {{/if}}
-
+<script src="/controllers/restaurantController.js"></script>
