@@ -1,12 +1,14 @@
-<nav>
+<header>
     <ul>
         <li><a href="/">Dashboard</a></li>
-        <li><a href="/restaurants/search">Search Restaurants</a></li>
-        {{#if user}}
-            <li><a href="/auth/logout">Logout</a></li>
+        <li><a href="/search">Search Restaurants</a></li>
+        {{#if loggedIn}}
+            <li><a href="#">Logout</a></li>
         {{else}}
             <li><a href="/login">Login</a></li>
-            <li><a href="/register">Register</a></li>
+            <li><a href="/register">Register New User</a></li>
         {{/if}}
     </ul>
-</nav>
+</header>
+
+<script src="/js/logout.js"></script>

@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
-const User = require('./user')(sequelize, Sequelize);
-const Restaurant = require('./restaurant')(sequelize, Sequelize);
-const Review = require('./review')(sequelize, Sequelize);
+const User = require('./User')(sequelize, Sequelize);
+const Restaurant = require('./Restaurant')(sequelize, Sequelize);
+const Review = require('./Review')(sequelize, Sequelize);
 
 
 User.hasMany(Review, {foreignKey: 'user_id', onDelete: 'CASCADE'});
