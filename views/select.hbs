@@ -1,7 +1,7 @@
 {{> header}}
 {{#if results.length}}
     <h1>Please select a Restaurant</h1>
-    <form action="/select" method="POST">
+    <form action="/restaurants/select" method="POST">
         <ul>
             {{#each results}}
                 <li>
@@ -10,6 +10,7 @@
                 </li>
             {{/each}}
         </ul>
+        <button type="submit">Continue</button>
     </form>
 {{else}}
     <p>No results found. Please try another seach</p>

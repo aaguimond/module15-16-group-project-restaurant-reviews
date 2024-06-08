@@ -11,8 +11,8 @@ exports.searchRestaurants = async (req, res) => {
     // Endpoint for our first API call to retrieve TripAdvisor's 'location_id' for the restaurant
     // Tertiary function: if address is included, our endpoint is the first link. If address is absent, our endpoint is the second link
     const endpoint1 = address
-        ? `https://api.content.tripadvisor.com/api/v1/location/search?key=${apiKey}&seachQuery=${encodeURIComponent(name)}&category=restaurants&address=${encodeURIComponent(address)}&language=en`
-        : `https://api.content.tripadvisor.com/api/v1/location/search?key=${apiKey}&searchQuery=${encodeURIComponent(name)}&category=restaurants&language=en`;
+    ? `https://api.content.tripadvisor.com/api/v1/location/search?key=${apiKey}&searchQuery=${encodeURIComponent(name)}&category=restaurants&address=${encodeURIComponent(address)}&language=en`
+    : `https://api.content.tripadvisor.com/api/v1/location/search?key=${apiKey}&searchQuery=${encodeURIComponent(name)}&category=restaurants&language=en`;
 
     try {
         // First API call to get location ID
@@ -23,14 +23,14 @@ exports.searchRestaurants = async (req, res) => {
         if (search1Results.length > 1) {
             // We take the top five results and render them to the select page
             const top5Results = search1Results.slice(0, 5);
-            res.render('select', { results: top5Results });
+            res.json({ redirect: '/restaurants/select', results: top5Results });
         // If we get ONLY one result,
         } else if (search1Results.legth === 1) {
             // We go right ahead and pass that locationId to the second and third API calls and render them to the details page
             await fetchDetailsAndRender(results[0].location_id, res);
         // If NO results are returned, we display an error message on the search page
         } else {
-            res.render('home', { message: 'No results found. Please try another search.' });
+            res.json({ redirect: '/', message: 'No results found. Please try another search.' });
         }
     // Error catching for the first API call
     } catch (err) {
@@ -88,7 +88,7 @@ const fetchDetailsAndRender = async (locationId, res) => {
             priceLevel: details.price_level,
             hours: details.hours.weekday_text,
             photos: photos.map(photo => photo.images.medium.url),
-            restaurantId: location_id
+            restaurantId: locationId
         });
     } catch (err) {
         console.error('Error fetching details from TripAdvisor API:', err);
