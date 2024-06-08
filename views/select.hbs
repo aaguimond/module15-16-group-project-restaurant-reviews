@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Restaurant</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    {{> header}}
+    <div class="container">
+        <h1>Select a Restaurant</h1>
+        {{#if results.length}}
+            <form action="/select" method="POST">
+                <ul>
+                    {{#each results}}
+                        <li>
+                            <input type="radio" id="{{this.location_id}}" name="locationId" value="{{this.location_id}}" required>
+                            <label for="{{this.location_id}}">{{this.name}}</label>
+                        </li>
+                    {{/each}}
+                </ul>
+            </form>
+        {{else}}
+            <p>No results found. Please try another seach</p>
+        {{/if}}
+    </div>
+    {{> footer}}
+</body>
+</html>

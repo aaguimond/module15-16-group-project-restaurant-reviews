@@ -1,11 +1,26 @@
-
-    <h1>Search for Restaurants</h1>
-    <form id="search-form">
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required>
-        <button type="submit">Search</button>
-    </form>
-    <div id="search-results">
-        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Restaurants</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    {{> header}}
+    <div class="container">
+        <h1>Search for Restaurants</h1>
+        <form id="search-form">
+            <label for="restaurant-name">Restaurant Name:</label>
+            <input type="text" id="restaurant-name" name="restaurant-name" required>
+            <label for="address-city">Address or city:</label>
+            <input type="text" id="address-city" name="address-city">
+            <button type="submit">Search</button>
+        </form>
+        {{#if message}}
+            <p>{{message}}</p>
+        {{/if}}
     </div>
-
+    {{> footer}}
+</body>
+</html>

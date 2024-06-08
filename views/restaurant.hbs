@@ -1,6 +1,4 @@
-
-
-  <h1>Restaurants in {{query.location}}</h1>
+<h1>Restaurants in {{query.location}}</h1>
   {{#if restaurants.data.length}}
     <ul>
       {{#each restaurants.data}}
@@ -14,4 +12,3 @@
   {{else}}
     <p>No restaurants found for "{{query.location}}".</p>
   {{/if}}
-
