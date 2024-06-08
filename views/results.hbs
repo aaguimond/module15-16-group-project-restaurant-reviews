@@ -1,55 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{name}}</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    {{> header}}
-    <div class="container">
-        <h1>{{name}}</h1>
-        <p>{{address}}</p>
-        <p>Email: {{email}}</p>
-        <p>Phone: {{phone}}</p>
-        <p>Website: <a href="{{website}}">{{website}}</a></p>
-        <p>Price Level: {{priceLevel}}</p>
-        <p>Hours: {{hours}}</p>
-        <div class="photos">
-            {{#each photos}}
-                <img src="{{this}}" alt="{{../name}}">
-            {{/each}}
-        </div>
-        <h2>Reviews</h2>
-        {{#if reviews.length}}
-            <ul>
-                {{#each reviews}}
-                    <li>{{this.user.username}} - {{this.rating}}</li>
-                {{/each}}
-            </ul>
-        {{else}}
-            <p>No reviews yet. Be the first to review!</p>
-        {{/if}}
-        <h2>Write a Review</h2>
-        <form action="/reviews" method="post">
-            <input type="hidden" name="restaurantId" value="{{restaurantId}}">
-            <div>
-                <label for="rating">Rating:</label>
-                <input type="number" id="rating" name="rating" min="1" max="10" required>
-            </div>
-            <div>
-                <label for="review">Review:</label>
-                <textarea id="review" name="review" required></textarea>
-            </div>
-            <button type="submit">Submit Review</button>
-        </form>
-        {{#if error}}
-            <p>{{error}}</p>
-        {{else}}
-            <p>{{success}}</p>
-        {{/if}}
+{{> header}}
+<div class="container">
+<h1>{{name}}</h1>
+<p>{{address}}</p>
+<p>Email: {{email}}</p>
+<p>Phone: {{phone}}</p>
+<p>Website: <a href="{{website}}">{{website}}</a></p>
+<p>Price Level: {{priceLevel}}</p>
+<p>Hours: {{hours}}</p>
+
+<h2>Photos</h2>
+<div class="photos">
+    {{#each photos}}
+        <img src="{{this}}" alt="{{../name}}">
+    {{/each}}
+</div>
+
+<h2>Reviews</h2>
+{{#if reviews.length}}
+    <ul>
+        {{#each reviews}}
+            <li>{{this.user.username}} - {{this.rating}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No reviews yet. Be the first to review!</p>
+{{/if}}
+
+<h2>Write a Review</h2>
+<form action="/reviews" method="post">
+    <input type="hidden" name="restaurantId" value="{{restaurantId}}">
+    <div>
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" name="rating" min="1" max="10" required>
     </div>
-    {{> footer}}
-</body>
-</html>
+    <div>
+        <label for="review">Review:</label>
+        <textarea id="review" name="review" required></textarea>
+    </div>
+    <button type="submit">Submit Review</button>
+</form>
+{{> footer}}

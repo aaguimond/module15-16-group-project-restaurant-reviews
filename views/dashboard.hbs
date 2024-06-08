@@ -1,37 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    {{> header}}
-    <div class="container">
-        <h1>Welcome to Your Dashboard</h1>
-        <h2>Your Reviews</h2>
-        {{#if reviews.length}}
-            <ul>
-                {{#each reviews}}
-                    <li>{{this.restaurant.name}} - {{this.rating}}</li>
-                {{/each}}
-            </ul>
-        {{else}}
-            <p>Write a review for it to appear here!</p>
-        {{/if}}
+{{> header}}
+<h1>{{user.username}}'s Dashboard</h1>
 
-        <h2>Recent Searches</h2>
-        {{#if searchHistory.length}}
-            <ul>
-                {{#each searchHistory}}
-                    <li>{{this.name}} in {{this.address}}</li>
-                {{/each}}
-            </ul>
-        {{else}}
-            <p>No recent searches. Make one <a href="/search">here</a>!</p>
-        {{/if}}
-    </div>
-    {{> footer}}
-</body>
-</html>
+<h2>Your Reviews</h2>
+{{#if reviews.length}}
+    <ul>
+        {{#each reviews}}
+            <li>{{this.restaurant.name}} - {{this.rating}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>Write a review for it to appear here!</p>
+{{/if}}
+
+<h2>Recent Searches</h2>
+{{#if searchHistory.length}}
+    <ul>
+        {{#each searchHistory}}
+            <li>{{this.name}} in {{this.address}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No recent searches. Make one <a href="/search">here</a>!</p>
+{{/if}}
+{{> footer}}

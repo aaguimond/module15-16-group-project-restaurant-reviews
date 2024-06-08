@@ -2,9 +2,7 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser');
 
-
-
-
+// 
 module.exports = (app) => {
     // Set engine to display views as Handlebars
     app.engine('hbs', engine({
