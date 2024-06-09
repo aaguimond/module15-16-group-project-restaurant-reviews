@@ -5,7 +5,7 @@ module.exports = {
     // For local development
     development: {
         // Hard coded to reduce errors during development
-        username: 'posgres',
+        username: 'postgres',
         // variables from .env file
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,

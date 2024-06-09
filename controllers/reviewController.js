@@ -2,7 +2,7 @@ const { Review, Restaurant, User } = require('../models');
 const withAuth = require('../middleware/authMiddleware');
 
 // 
-exports.getDashboard = withAuth(async (req, res) => {
+exports.getDashboard = async (req, res) => {
     try {
         const reviews = await Review.findAll({
             where: { user_id: req.session.user_id },
@@ -21,9 +21,9 @@ exports.getDashboard = withAuth(async (req, res) => {
         console.error(err);
         res.status(500).json(err);
     }
-});
+};
 
-exports.addReview = withAuth(async (req, res) => {
+exports.addReview = async (req, res) => {
     try {
         const newReview = await Review.create({
             ...req.body,
@@ -35,4 +35,4 @@ exports.addReview = withAuth(async (req, res) => {
         console.error(err);
         res.status(500).json(err);
     }
-});
+};
