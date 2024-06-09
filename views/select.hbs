@@ -1,0 +1,18 @@
+{{> header}}
+{{#if results.length}}
+    <h1>Please select a Restaurant</h1>
+    <form action="/restaurants/select" method="POST">
+        <ul>
+            {{#each results}}
+                <li>
+                    <input type="radio" id="{{this.location_id}}" name="locationId" value="{{this.location_id}}">
+                    <label for="{{this.location_id}}">{{this.name}}</label>
+                </li>
+            {{/each}}
+        </ul>
+        <button type="submit">Continue</button>
+    </form>
+{{else}}
+    <p>No results found. Please try another seach</p>
+{{/if}}
+{{> footer}}

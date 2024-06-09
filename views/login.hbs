@@ -1,14 +1,16 @@
+{{> header}}
 <h1>Login</h1>
-<form action="/login" method="POST">
+
+<form class="login-form" action="/login" method="POST">
     <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+        <label for="email-login">Email:</label>
+        <input type="email" id="email-login" name="email-login" required>
     </div>
     <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <label for="password-login">Password:</label>
+        <input type="password" id="password-login" name="password-login" required>
     </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
+    <button type="submit">Login</button>
 </form>
+<script src="/js/login.js"></script>
+{{> footer}}
