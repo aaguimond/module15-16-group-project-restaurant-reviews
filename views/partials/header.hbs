@@ -1,10 +1,9 @@
 <header>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/search">Search Restaurants</a></li>
         {{#if loggedIn}}
             <li><a href="#">Logout</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
         {{else}}
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Register</a></li>
