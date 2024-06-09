@@ -13,4 +13,21 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard');
+});
+
+router.get('/search', (req, res) => {
+    res.render('search');
+});
+
+router.get('/login', (req, res) => {
+    res.render('login');
+});
+
+router.get('/register', (req, res) => {
+    res.render('register');
+});
+
+
 module.exports = router;
