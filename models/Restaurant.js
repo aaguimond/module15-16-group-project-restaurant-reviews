@@ -13,7 +13,7 @@ const initRestaurant = (sequelize) => {
                 autoIncrement: true,
             },
             locationId: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
             },
@@ -23,10 +23,10 @@ const initRestaurant = (sequelize) => {
             },
             address: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
                 unique: true,
                 validate: {
-                len:[1,300],
+                len:[100],
                 },
             },
             email: {
@@ -53,10 +53,6 @@ const initRestaurant = (sequelize) => {
             priceLevel: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
-                validate:{
-                   min: 1,
-                   max: 5,
-                },
             },
             hours: {
                 type: DataTypes.STRING,

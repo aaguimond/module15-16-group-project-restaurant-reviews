@@ -1,4 +1,4 @@
-const { Restaurant } = require('../models/Restaurant');
+const { Restaurant } = require('../models');
 const axios = require('axios');
 require('dotenv').config();
 
@@ -42,8 +42,8 @@ exports.searchRestaurants = async (req, res) => {
 };
 
 // When there are multiple results that are returned from a search, we redirect them to the select page,
-exports.selectRestaurant = async (req, res) => {
-    const { locationId } = req.body;
+exports.showRestaurantResults = async (req, res) => {
+    const { locationId } = req.params;
     console.log('Received locationId:', locationId);
     // where once they select which result they'd like details on,
     try {
@@ -84,7 +84,7 @@ const fetchDetailsAndRender = async (locationId, res) => {
         // Rendering our results to our handlebars view
         res.render('results', {
             name: details.name,
-            address: details.adress_obj.adress_string,
+            address: details.address_obj.address_string,
             email: details.email,
             phone: details.phone,
             website: details.website,

@@ -3,15 +3,18 @@ const express = require('express');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/database');
+require('dotenv').config();
 const routes = require('./routes');
 const setupMiddleware = require('./middleware/setupMiddleware');
 const errorHandler = require('./middleware/errorHandler');
-require('dotenv').config();
 
 const app = express();
 
 // Linking to middleware
 setupMiddleware(app);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Setting up session attributes
 app.use(session({
