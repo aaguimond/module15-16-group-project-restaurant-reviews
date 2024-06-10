@@ -4,13 +4,13 @@
         <ul>
             {{#each results}}
                 <li>
-                    <input type="radio" id="{{this.location_id}}" name="locationId" value="{{this.location_id}}">
-                    <label for="{{this.location_id}}">{{this.name}}</label>
+                    <input type="radio" id="{{this.location_id}}" name="locationId" value="{{this.location_id}}" required>
+                    <label for="{{this.location_id}}"><strong>{{this.name}}</strong> in {{this.address_obj.city}}, {{this.address_obj.state}}</label>
                 </li>
             {{/each}}
         </ul>
         <button type="submit">Continue</button>
     </form>
 {{else}}
-    <p>No results found. Please try another seach</p>
+    <p>No results found. Please try another search.</p>
 {{/if}}

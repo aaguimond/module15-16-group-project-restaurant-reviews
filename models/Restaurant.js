@@ -78,5 +78,4 @@ const initRestaurant = (sequelize) => {
     return Restaurant;
 };
 
-
 module.exports = initRestaurant;

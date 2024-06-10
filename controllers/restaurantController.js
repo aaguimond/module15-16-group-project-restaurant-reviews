@@ -22,15 +22,17 @@ exports.searchRestaurants = async (req, res) => {
         // If we get more than one result returned,
         if (search1Results.length > 1) {
             // We take the top five results and render them to the select page
-            const top5Results = search1Results.slice(0, 5);
-            res.json({ redirect: '/restaurants/select', results: top5Results });
+            const top10Results = search1Results.slice(0, 10);
+            req.session.searchResults = top10Results;
+            console.log('Search results have been set in session -----', req.session.searchResults);
+            res.json({ redirect: '/restaurants/select' });
         // If we get ONLY one result,
-        } else if (search1Results.legth === 1) {
+        } else if (search1Results.length === 1) {
             // We go right ahead and pass that locationId to the second and third API calls and render them to the details page
-            await fetchDetailsAndRender(results[0].location_id, res);
+            await fetchDetailsAndRender(search1Results[0].location_id, res);
         // If NO results are returned, we display an error message on the search page
         } else {
-            res.json({ redirect: '/', message: 'No results found. Please try another search.' });
+            res.json({ message: 'No results found. Please try another search.' });
         }
     // Error catching for the first API call
     } catch (err) {
@@ -41,7 +43,8 @@ exports.searchRestaurants = async (req, res) => {
 
 // When there are multiple results that are returned from a search, we redirect them to the select page,
 exports.selectRestaurant = async (req, res) => {
-    const { locationId } =  req.body;
+    const { locationId } = req.body;
+    console.log('Received locationId:', locationId);
     // where once they select which result they'd like details on,
     try {
         // We make the second and third API calls and render the results to the page
@@ -73,7 +76,7 @@ const fetchDetailsAndRender = async (locationId, res) => {
         // Creating object with the photos
         const details = detailsResponse.data;
 
-        const restaurant = await Restaurant.findOrCreate({
+        await Restaurant.findOrCreate({
           where: { locationId: locationId },
           defaults: { name: details.name }
         });
@@ -95,4 +98,3 @@ const fetchDetailsAndRender = async (locationId, res) => {
         res.status(500).json({ message: 'An error occurred while fetching restaurant details from the TripAdvisor API.' });
     }
 };
-  
