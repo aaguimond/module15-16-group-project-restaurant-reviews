@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { searchRestaurants, selectRestaurant, showRestaurantResults, fetchDetailsAndRender } = require('../controllers/restaurantController');
+const searchHistoryMiddleware = require('../middleware/searchHistoryMiddleware');
 
 router.get('/search', (req, res) => {
     res.render('search');
@@ -13,8 +14,8 @@ router.get('/select', (req, res) => {
 });
 router.post('/select', selectRestaurant);
 
-router.get('/results/:location_id', showRestaurantResults);
+router.get('/results/:location_id', searchHistoryMiddleware, showRestaurantResults);
 
-router.get('/:location_id', fetchDetailsAndRender);
+router.get('/:location_id', searchHistoryMiddleware, fetchDetailsAndRender);
 
 module.exports = router;

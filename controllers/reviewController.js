@@ -4,17 +4,35 @@ const withAuth = require('../middleware/authMiddleware');
 // 
 const getDashboard = async (req, res) => {
     try {
-        const reviews = await Review.findAll({
-            where: { user_id: req.session.user_id },
-            include: [{ model: Restaurant }, { model: User, attributes: ['username'] }]
+        const user = await User.findByPk(req.session.user_id, {
+            attributes: ['username'],
+            include: [
+                {
+                    model: Review,
+                    include: [Restaurant]
+                }
+            ]
         });
 
-        const searchHistory = [];
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+
+        const userData = user.get({ plain: true });
+
+        const searchHistory = await Restaurant.findAll({
+            where: {
+                location_id: req.session.searchHistory
+            }
+        });
+
+        const plainSearchHistory = searchHistory.map(r => r.get({ plain: true }));
 
         res.render('dashboard', {
-            user: req.session.user_id,
-            reviews,
-            searchHistory,
+            user: userData,
+            reviews: userData.reviews,
+            searchHistory: plainSearchHistory,
             loggedIn: req.session.logged_in
         });
     } catch (err) {
@@ -25,16 +43,11 @@ const getDashboard = async (req, res) => {
 
 const addReview = async (req, res) => {
     try {
-        console.log('Session user_id:', req.session.user_id);
-        console.log('Request body:', req.body);
-
         const newReview = await Review.create({
             ...req.body,
             user_id: req.session.user_id,
             restaurant_id: req.body.restaurant_id
         });
-
-        console.log('New review created:', newReview);
 
         res.redirect(`/restaurants/${req.body.restaurant_id}`);
     } catch (err) {

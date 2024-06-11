@@ -32,13 +32,11 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         const newUser = await User.create(req.body);
-        console.log('New user created:', newUser);
 
         req.session.save(() => {
             req.session.user_id = newUser.id;
             req.session.user = newUser;
             req.session.logged_in = true;
-            console.log('Session after saving:', req.session);
 
             res.json(newUser);
         });
