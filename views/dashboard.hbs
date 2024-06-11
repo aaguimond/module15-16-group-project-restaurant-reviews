@@ -4,7 +4,7 @@
 {{#if reviews.length}}
     <ul>
         {{#each reviews}}
-            <li>{{this.restaurant.name}} - {{this.rating}}</li>
+            <a href="/restaurants/results/{{this.restaurant.location_id}}"><li>{{this.restaurant.name}} - {{this.rating}}</li></a>
         {{/each}}
     </ul>
 {{else}}
@@ -15,7 +15,7 @@
 {{#if searchHistory.length}}
     <ul>
         {{#each searchHistory}}
-            <li>{{this.name}} in {{this.address}}</li>
+            <a href="/restaurants/results/{{this.location_id}}"><li>{{this.name}} in {{this.address}}</li></a>
         {{/each}}
     </ul>
 {{else}}

@@ -24,12 +24,11 @@ const searchRestaurants = async (req, res) => {
             // We take the top five results and render them to the select page
             const top10Results = search1Results.slice(0, 10);
             req.session.searchResults = top10Results;
-            console.log('Search results have been set in session -----', req.session.searchResults);
             res.json({ redirect: '/restaurants/select' });
         // If we get ONLY one result,
         } else if (search1Results.length === 1) {
             const location_id = search1Results[0].location_id;
-            console.log(location_id)
+
             req.session.save(() => {
                 res.json({ redirect: `/restaurants/results/${location_id}` });
             })
@@ -49,7 +48,6 @@ const searchRestaurants = async (req, res) => {
 // When there are multiple results that are returned from a search, we redirect them to the select page,
 const selectRestaurant = async (req, res) => {
     const { location_id } = req.params;
-    console.log('Received location_id:', location_id);
     // where once they select which result they'd like details on,
     try {
         // We make the second and third API calls and render the results to the page
@@ -63,7 +61,6 @@ const selectRestaurant = async (req, res) => {
 // When there are multiple results that are returned from a search, we redirect them to the select page,
 const showRestaurantResults = async (req, res) => {
     const { location_id } = req.params;
-    console.log('Received location_id:', location_id);
     // where once they select which result they'd like details on,
     try {
         // We make the second and third API calls and render the results to the page
@@ -78,12 +75,11 @@ const showRestaurantResults = async (req, res) => {
 const fetchDetailsAndRender = async (req, res) => {
     const apiKey = process.env.API_KEY;
     const location_id = req.params.location_id;
-    console.log('Location_id', location_id);
+
     const photosEndpoint = `https://api.content.tripadvisor.com/api/v1/location/${location_id}/photos?key=${apiKey}&language=en&limit=3`;
     const detailsEndpoint = `https://api.content.tripadvisor.com/api/v1/location/${location_id}/details?key=${apiKey}&language=en&currency=USD`;
 
     try {
-        console.log('Problematic URL:', photosEndpoint)
         const photosResponse = await axios.get(photosEndpoint);
         const detailsResponse = await axios.get(detailsEndpoint);
 
@@ -107,8 +103,6 @@ const fetchDetailsAndRender = async (req, res) => {
             }
         });
 
-        console.log('Restaurant saved or found:', restaurant);
-
         const reviewData = await Review.findAll({
             where: {
                 restaurant_id: restaurant.location_id
@@ -117,7 +111,8 @@ const fetchDetailsAndRender = async (req, res) => {
         });
 
         const reviews = reviewData.map((review) => review.get({ plain: true }));
-        console.log(reviews)
+        const averageRating = reviews.length ? (reviews.reduce((sum, review) => sum + parseFloat(review.rating), 0) / reviews.length).toFixed(2) : null;
+
         res.render('results', {
             name: restaurant.name,
             address: restaurant.address,
@@ -129,6 +124,7 @@ const fetchDetailsAndRender = async (req, res) => {
             photos: restaurant.photos,
             restaurant_id: restaurant.location_id,
             reviews,
+            averageRating,
         });
     } catch (err) {
         console.error('Error fetching details from TripAdvisor API:', err);

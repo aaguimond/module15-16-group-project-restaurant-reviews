@@ -7,6 +7,7 @@ require('dotenv').config();
 const routes = require('./routes');
 const setupMiddleware = require('./middleware/setupMiddleware');
 const errorHandler = require('./middleware/errorHandler');
+const searchHistoryMiddleware = require('./middleware/searchHistoryMiddleware');
 
 const User = require('./models/User');
 const Restaurant = require('./models/Restaurant');
@@ -36,6 +37,8 @@ app.use(session({
     }
 }));
 
+app.use(searchHistoryMiddleware);
+
 app.use((req, res, next) => {
     res.locals.logged_in = req.session.logged_in;
     res.locals.user = req.session.user;
@@ -52,7 +55,6 @@ const PORT = process.env.PORT || 3000;
 const syncDatabase = async () => {
     try {
         await sequelize.sync({ force: true }); // Use { force: true } for development, { alter: true } for production
-        console.log("Database & tables created!");
 
         // Sync session store
         await sessionStore.sync();

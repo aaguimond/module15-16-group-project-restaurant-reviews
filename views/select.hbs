@@ -12,17 +12,6 @@
         </ul>
         <button type="submit">Continue</button>
     </form>
-    <script>
-        function logFormData(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-            event.target.submit();
-            return false;
-        }
-    </script>
 {{else}}
     <p>No results found. Please try another search.</p>
 {{/if}}
