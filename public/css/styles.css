@@ -1,0 +1,213 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+p {
+    color: #666;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+
+a {
+    text-decoration: none;
+    color: darkblue !important;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Header and footer styles */
+header, footer {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+}
+
+header ul li {
+    margin: 0 10px;
+}
+
+.header-btn {
+    color: lightgoldenrodyellow;
+    box-shadow: 1px 1px 0px goldenrod;
+}
+
+footer {
+    width: 100%;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+    color: #fff;
+}
+
+/* Form styles */
+form {
+    margin: 20px 0;
+}
+
+form div {
+    margin-bottom: 10px;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px 7.5%;
+    color: #333;
+}
+
+form input, form textarea {
+    width: 80%;
+    margin: 0 5% 0 7.5%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-center {
+    margin: 2.5% 0 0 40%;
+}
+
+.btn-shadow {
+    box-shadow: 1px 1px 0px darkblue;
+}
+
+.review-btn, #select-form {
+    margin-bottom: 5vh;
+}
+
+.select-results {
+    width: 80%;
+    margin-left: 8%;
+}
+
+#results-photos, #results-reviews {
+    border-top: 5px solid #0056b3;
+    padding: 5px 0 15px 0;
+    margin: 0;
+}
+
+#results-photos {
+    background-color: lightgoldenrodyellow;
+}
+
+.details-span {
+    color: #333;
+    font-weight: 700;
+}
+
+#results-address {
+    color: #333;
+    font-weight: 600;
+    font-size: large;
+}
+
+#price-level {
+    color: darkgoldenrod;
+    font-weight: 600;
+}
+
+/* Photos section */
+#photos-container {
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 15px;
+    margin: 0;
+    background-color: lightgoldenrodyellow;
+}
+
+.photos {
+    display: flex;
+    justify-content: space-around;
+}
+
+.photos img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+}
+
+.rating {
+    font-size: 1.2rem;
+}
+
+#average-rating {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.reviews-user {
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: #333;
+}
+
+.reviews-rating {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Dashboard and home styles */
+.dashboard h1, .home h1 {
+    text-align: center;
+    color: #333;
+}
+
+.page-title {
+    padding: 15px 0 5px 0;
+    margin-top: 0;
+    border-bottom: 5px #0056b3 ridge;
+    background-color: lightgoldenrodyellow;
+}
+
+.dashboard p, .home p {
+    text-align: center;
+    color: #666;
+}
+
+#dashboard-reviews, #dashboard-searches, #results-reviews {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}

@@ -1,26 +1,28 @@
 <div class="container">
-<h1>{{name}}</h1>
-<p>{{address}}</p>
-<p>Email: {{email}}</p>
-<p>Phone: {{phone}}</p>
-<p>Website: <a href="{{website}}">{{website}}</a></p>
-<p>Price Level: {{priceLevel}}</p>
-<p>Hours: {{hours}}</p>
+<h1 class="page-title">{{name}}</h1>
+<p id="results-address">{{address}}</p>
+<p><span class="details-span">Email:</span> {{email}}</p>
+<p><span class="details-span">Phone:</span> {{phone}}</p>
+<p><span class="details-span">Website:</span> <a href="{{website}}">{{website}}</a></p>
+<p><span class="details-span">Price Level:</span> <span id="price-level">{{priceLevel}}</span></p>
+<p><span class="details-span">Hours:</span> {{hours}}</p>
 
-<h2>Photos</h2>
-<div class="photos">
-    {{#each photos}}
-        <img src="{{this}}" alt="{{../name}}">
-    {{/each}}
+<h2 id="results-photos">Photos</h2>
+<div id="photos-container">
+    <div class="photos">
+        {{#each photos}}
+            <img src="{{this}}" alt="{{../name}}">
+        {{/each}}
+    </div>
 </div>
 
-<h2>Reviews</h2>
+<h2 id="results-reviews">Reviews</h2>
 {{#if reviews.length}}
-    <p>Average Rating: {{averageRating}}</p>
+    <p id="average-rating"><span class="details-span">Average Rating:</span> {{averageRating}}</p>
     <ul>
         {{#each reviews}}
             <li>
-                <p>{{this.user.username}} - {{this.rating}}</p>
+                <p class="rating"><span class="reviews-user">{{this.user.username}}</span> - <span class="reviews-rating">{{this.rating}}</span></p>
                 <p>{{this.review_text}}</p>
             </li>
         {{/each}}
@@ -40,7 +42,7 @@
         <label for="review_text">Review:</label>
         <textarea id="review_text" name="review_text" required></textarea>
     </div>
-    <button type="submit">Submit Review</button>
+    <button class="btn-shadow btn-center review-btn" type="submit">Submit Review</button>
 </form>
 
 <script src="/js/review.js"></script>

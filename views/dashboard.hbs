@@ -1,6 +1,6 @@
-<h1>{{user.username}}'s Dashboard</h1>
+<h1 class="page-title">{{user.username}}'s Dashboard</h1>
 
-<h2>Your Reviews</h2>
+<h2 id="dashboard-reviews">Your Reviews</h2>
 {{#if reviews.length}}
     <ul>
         {{#each reviews}}
@@ -11,7 +11,7 @@
     <p>Write a review for it to appear here!</p>
 {{/if}}
 
-<h2>Recent Searches</h2>
+<h2 id="dashboard-searches">Recent Searches</h2>
 {{#if searchHistory.length}}
     <ul>
         {{#each searchHistory}}

@@ -1,16 +1,15 @@
 {{#if results.length}}
-    <h1>Please select a Restaurant</h1>
-    <form action="/restaurants/select" method="POST">
+    <h1 class="page-title">Please select a Restaurant</h1>
+    <form id="select-form" action="/restaurants/select" method="POST">
         <ul>
             {{#each results}}
-                <li>
+                <li class="select-results">
                     <a href="/restaurants/results/{{this.location_id}}">
-                        <strong>{{this.name}}</strong> in {{this.address_obj.city}}, {{this.address_obj.state}}
+                        <strong>{{this.name}}</strong> in {{this.address_obj.city}}, {{this.address_obj.state}}, at {{this.address_obj.street1}}
                     </a>
                 </li>
             {{/each}}
         </ul>
-        <button type="submit">Continue</button>
     </form>
 {{else}}
     <p>No results found. Please try another search.</p>
