@@ -1,9 +1,9 @@
-const { Restaurant } = require('../models');
+const { Restaurant, Review, User } = require('../models');
 const axios = require('axios');
 require('dotenv').config();
 
 // Handles form submission and TripAdvisor API calls
-exports.searchRestaurants = async (req, res) => {
+const searchRestaurants = async (req, res) => {
     // Gathering user input data
     const { name, address } = req.body;
     // Declaring api key from our env file
@@ -28,8 +28,13 @@ exports.searchRestaurants = async (req, res) => {
             res.json({ redirect: '/restaurants/select' });
         // If we get ONLY one result,
         } else if (search1Results.length === 1) {
-            // We go right ahead and pass that locationId to the second and third API calls and render them to the details page
-            await fetchDetailsAndRender(search1Results[0].location_id, res);
+            const location_id = search1Results[0].location_id;
+            console.log(location_id)
+            req.session.save(() => {
+                res.json({ redirect: `/restaurants/results/${location_id}` });
+            })
+            // We go right ahead and pass that location_id to the second and third API calls and render them to the details page
+            // await fetchDetailsAndRender(search1Results[0].location_id, res);
         // If NO results are returned, we display an error message on the search page
         } else {
             res.json({ message: 'No results found. Please try another search.' });
@@ -42,13 +47,27 @@ exports.searchRestaurants = async (req, res) => {
 };
 
 // When there are multiple results that are returned from a search, we redirect them to the select page,
-exports.showRestaurantResults = async (req, res) => {
-    const { locationId } = req.params;
-    console.log('Received locationId:', locationId);
+const selectRestaurant = async (req, res) => {
+    const { location_id } = req.params;
+    console.log('Received location_id:', location_id);
     // where once they select which result they'd like details on,
     try {
         // We make the second and third API calls and render the results to the page
-        await fetchDetailsAndRender(locationId, res);
+        await fetchDetailsAndRender(location_id, res);
+    } catch (err) {
+        console.error('Error fetching data from TripAdvisor API:', err);
+        res.status(500).json({ message: 'An error occurred while fetching data from the TripAdvisor API.' });
+    }
+};
+
+// When there are multiple results that are returned from a search, we redirect them to the select page,
+const showRestaurantResults = async (req, res) => {
+    const { location_id } = req.params;
+    console.log('Received location_id:', location_id);
+    // where once they select which result they'd like details on,
+    try {
+        // We make the second and third API calls and render the results to the page
+        res.redirect(`/restaurants/${location_id}`)
     } catch (err) {
         console.error('Error fetching data from TripAdvisor API:', err);
         res.status(500).json({ message: 'An error occurred while fetching data from the TripAdvisor API.' });
@@ -56,45 +75,65 @@ exports.showRestaurantResults = async (req, res) => {
 };
 
 // Second and third API calls to TripAdvisor to get restaurant pictures and details
-const fetchDetailsAndRender = async (locationId, res) => {
+const fetchDetailsAndRender = async (req, res) => {
     const apiKey = process.env.API_KEY;
-
-    // Second API call endpoint to get photos
-    const photosEndpoint = `https://api.content.tripadvisor.com/api/v1/location/${locationId}/photos?key=${apiKey}&language=en&limit=3`;
-
-    // Third API call endpoint to get details about restaurant
-    const detailsEndpoint = `https://api.content.tripadvisor.com/api/v1/location/${locationId}/details?key=${apiKey}&language=en&currency=USD`;
+    const location_id = req.params.location_id;
+    console.log('Location_id', location_id);
+    const photosEndpoint = `https://api.content.tripadvisor.com/api/v1/location/${location_id}/photos?key=${apiKey}&language=en&limit=3`;
+    const detailsEndpoint = `https://api.content.tripadvisor.com/api/v1/location/${location_id}/details?key=${apiKey}&language=en&currency=USD`;
 
     try {
-        // Declaring the response data
+        console.log('Problematic URL:', photosEndpoint)
         const photosResponse = await axios.get(photosEndpoint);
-        // Declaring the response data
         const detailsResponse = await axios.get(detailsEndpoint);
 
-        // Creating object with the photos
         const photos = photosResponse.data.data;
-        // Creating object with the photos
         const details = detailsResponse.data;
 
-        await Restaurant.findOrCreate({
-          where: { locationId: locationId },
-          defaults: { name: details.name }
+        const hours = details.hours ? details.hours.weekday_text.join(', ') : null;
+
+        const [restaurant, created] = await Restaurant.findOrCreate({
+            where: { location_id: location_id },
+            defaults: {
+                location_id: location_id, // Ensure location_id is set correctly
+                name: details.name,
+                address: details.address_obj.address_string,
+                email: details.email,
+                phone: details.phone,
+                website: details.website,
+                priceLevel: details.price_level, // Ensure priceLevel is handled properly
+                hours: hours, // Convert hours to string
+                photos: photos.map(photo => photo.images.medium.url),
+            }
         });
 
-        // Rendering our results to our handlebars view
+        console.log('Restaurant saved or found:', restaurant);
+
+        const reviewData = await Review.findAll({
+            where: {
+                restaurant_id: restaurant.location_id
+            },
+            include: User
+        });
+
+        const reviews = reviewData.map((review) => review.get({ plain: true }));
+        console.log(reviews)
         res.render('results', {
-            name: details.name,
-            address: details.address_obj.address_string,
-            email: details.email,
-            phone: details.phone,
-            website: details.website,
-            priceLevel: details.price_level,
-            hours: details.hours.weekday_text,
-            photos: photos.map(photo => photo.images.medium.url),
-            restaurantId: locationId
+            name: restaurant.name,
+            address: restaurant.address,
+            email: restaurant.email,
+            phone: restaurant.phone,
+            website: restaurant.website,
+            priceLevel: restaurant.priceLevel,
+            hours: restaurant.hours,
+            photos: restaurant.photos,
+            restaurant_id: restaurant.location_id,
+            reviews,
         });
     } catch (err) {
         console.error('Error fetching details from TripAdvisor API:', err);
         res.status(500).json({ message: 'An error occurred while fetching restaurant details from the TripAdvisor API.' });
     }
 };
+
+module.exports = { searchRestaurants, selectRestaurant, showRestaurantResults, fetchDetailsAndRender };

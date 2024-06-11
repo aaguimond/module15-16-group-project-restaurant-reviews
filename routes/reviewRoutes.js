@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const reviewController = require('../controllers/reviewController');
+const { getDashboard, addReview }= require('../controllers/reviewController');
 const withAuth = require('../middleware/authMiddleware');
 
-router.get('/dashboard', withAuth, reviewController.getDashboard);
-router.post('/reviews', withAuth, reviewController.addReview);
+router.get('/dashboard', withAuth, getDashboard);
+router.post('/restaurants/:location_id', withAuth, addReview);
 
 module.exports = router;

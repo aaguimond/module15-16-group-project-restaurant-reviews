@@ -3,19 +3,13 @@ const sequelize = require('../config/database');
 
 class Restaurant extends Model {}
 
-const initRestaurant = (sequelize) => {
     Restaurant.init(
         {
-            id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            locationId: {
+            location_id: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: true,
+                primaryKey: true,
+                field: 'location_id', // Explicitly set the field name
             },
             name: {
                 type: DataTypes.STRING,
@@ -24,16 +18,12 @@ const initRestaurant = (sequelize) => {
             address: {
                 type: DataTypes.STRING,
                 allowNull: true,
-                unique: true,
-                validate: {
-                len:[100],
-                },
             },
             email: {
                 type: DataTypes.STRING,
                 allowNull: true,
                 validate: {
-                isEmail: true,
+                    isEmail: true,
                 },
             },
             phone: {
@@ -46,13 +36,14 @@ const initRestaurant = (sequelize) => {
             website: {
                 type: DataTypes.STRING,
                 allowNull: true,
-                validate:{
+                validate: {
                     isUrl: true,
                 }
             },
             priceLevel: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: true,
+                field: 'price_level' // Explicitly set the field name
             },
             hours: {
                 type: DataTypes.STRING,
@@ -67,11 +58,10 @@ const initRestaurant = (sequelize) => {
             sequelize,
             timestamps: false,
             freezeTableName: true,
-            underscored: true,
+            underscored: true, // Ensure snake_case in the database
             modelName: 'restaurant',
+            tableName: 'restaurants', // Ensure tableName matches your database schema
         }
     );
-    return Restaurant;
-};
 
-module.exports = initRestaurant;
+module.exports = Restaurant;

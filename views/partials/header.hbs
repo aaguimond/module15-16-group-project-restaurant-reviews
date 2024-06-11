@@ -1,8 +1,8 @@
 <header>
     <ul>
         <li><a href="/">Home</a></li>
-        {{#if loggedIn}}
-            <li><a href="#">Logout</a></li>
+        {{#if logged_in}}
+            <li><a href="#" id="logout">Logout</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
         {{else}}
             <li><a href="/login">Login</a></li>
