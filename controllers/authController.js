@@ -18,6 +18,7 @@ exports.login = async (req, res) => {
 
         req.session.save(() => {
             req.session.user_id = userData.id;
+            req.session.user = userData;
             req.session.logged_in = true;
             res.json({ user: userData, message: 'You are now logged in!' });
         });
@@ -31,13 +32,18 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         const newUser = await User.create(req.body);
+        console.log('New user created:', newUser);
+
         req.session.save(() => {
             req.session.user_id = newUser.id;
+            req.session.user = newUser;
             req.session.logged_in = true;
+            console.log('Session after saving:', req.session);
+
             res.json(newUser);
         });
     } catch (err) {
-        console.log(err);
+        console.log('Error during user registration:', err);
         res.status(500).json(err);
     }
 };

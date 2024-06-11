@@ -2,7 +2,7 @@ const { Review, Restaurant, User } = require('../models');
 const withAuth = require('../middleware/authMiddleware');
 
 // 
-exports.getDashboard = async (req, res) => {
+const getDashboard = async (req, res) => {
     try {
         const reviews = await Review.findAll({
             where: { user_id: req.session.user_id },
@@ -23,16 +23,24 @@ exports.getDashboard = async (req, res) => {
     }
 };
 
-exports.addReview = async (req, res) => {
+const addReview = async (req, res) => {
     try {
+        console.log('Session user_id:', req.session.user_id);
+        console.log('Request body:', req.body);
+
         const newReview = await Review.create({
             ...req.body,
-            user_id: req.session.user_id
+            user_id: req.session.user_id,
+            restaurant_id: req.body.restaurant_id
         });
 
-        res.redirect(`/restaurants/${req.body.restaurantId}`);
+        console.log('New review created:', newReview);
+
+        res.redirect(`/restaurants/${req.body.restaurant_id}`);
     } catch (err) {
-        console.error(err);
-        res.status(500).json(err);
+        console.error('Error creating review:', err);
+        res.status(500).json({ message: 'An error occurred while creating the review.' });
     }
 };
+
+module.exports = { getDashboard, addReview };

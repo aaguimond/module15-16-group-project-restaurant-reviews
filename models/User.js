@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 const bcrypt = require('bcrypt');
 
 class User extends Model {
@@ -7,7 +8,7 @@ class User extends Model {
     }
 }
 
-const initUser = (sequelize) => {
+
     User.init(
         {
             id: {
@@ -15,10 +16,12 @@ const initUser = (sequelize) => {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
+                unique: true,
             },
             username: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                unique: true,
             },
             email: {
                 type: DataTypes.STRING,
@@ -48,9 +51,8 @@ const initUser = (sequelize) => {
             freezeTableName: true,
             underscored: true,
             modelName: 'user',
+            tableName: 'users'
         }
     );
-    return User;
-};
 
-module.exports = initUser;
+module.exports = User;

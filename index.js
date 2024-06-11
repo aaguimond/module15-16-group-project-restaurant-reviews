@@ -8,6 +8,10 @@ const routes = require('./routes');
 const setupMiddleware = require('./middleware/setupMiddleware');
 const errorHandler = require('./middleware/errorHandler');
 
+const User = require('./models/User');
+const Restaurant = require('./models/Restaurant');
+const Review = require('./models/Review');
+
 const app = express();
 
 // Linking to middleware
@@ -16,10 +20,14 @@ setupMiddleware(app);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const sessionStore = new SequelizeStore({
+    db: sequelize,
+});
+
 // Setting up session attributes
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    store: new SequelizeStore({ db: sequelize }),
+    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -28,6 +36,12 @@ app.use(session({
     }
 }));
 
+app.use((req, res, next) => {
+    res.locals.logged_in = req.session.logged_in;
+    res.locals.user = req.session.user;
+    next();
+});
+
 // Linking routes and error handler
 app.use(routes);
 app.use(errorHandler);
@@ -35,7 +49,21 @@ app.use(errorHandler);
 // Declaring server port from .env file
 const PORT = process.env.PORT || 3000;
 
-// Logging to the console that the server is functioning
-app.listen(PORT, () => {
-    console.log(`Server is now running on port ${PORT}`);
-});
+const syncDatabase = async () => {
+    try {
+        await sequelize.sync({ force: true }); // Use { force: true } for development, { alter: true } for production
+        console.log("Database & tables created!");
+
+        // Sync session store
+        await sessionStore.sync();
+
+        // Start the server
+        app.listen(PORT, () => {
+            console.log(`Server is now running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error('Unable to sync database:', err);
+    }
+};
+
+syncDatabase();

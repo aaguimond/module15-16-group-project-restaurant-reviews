@@ -3,7 +3,6 @@ const sequelize = require('../config/database');
 
 class Review extends Model {}
 
-const initReview = (sequelize) => {
     Review.init(
         {
             id: {
@@ -12,7 +11,7 @@ const initReview = (sequelize) => {
                 autoIncrement: true,
                 allowNull: false,
             },
-            userId: {
+            user_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
@@ -20,27 +19,31 @@ const initReview = (sequelize) => {
                     key: 'id',
                 },
             },
-            restaurantId: {
-                type: DataTypes.INTEGER,
+            restaurant_id: {
+                type: DataTypes.STRING,
                 allowNull: false,
                 references: {
-                    model: 'restaurant',
-                    key: 'id',
+                    model: 'restaurants',
+                    key: 'location_id',
                 },
             },
             rating: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
+            },
+            review_text: {
+                type: DataTypes.STRING,
+                allowNull: false,
             },
         },   
         {
             sequelize,
-            modelName: 'Review',
+            modelName: 'review',
             tablename: 'reviews',
+            underscored: true,
             timestamps: true,
         },
     );
-    return Review;
-};
 
-module.exports = initReview;
+
+module.exports = Review;
