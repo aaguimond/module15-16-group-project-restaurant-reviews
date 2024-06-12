@@ -24,7 +24,6 @@ const searchRestaurants = async (req, res) => {
             // We take the top five results and render them to the select page
             const top10Results = search1Results.slice(0, 10);
             req.session.searchResults = top10Results;
-            console.log('=========================================================================================================================', top10Results)
             res.json({ redirect: '/restaurants/select' });
         // If we get ONLY one result,
         } else if (search1Results.length === 1) {
