@@ -107,7 +107,7 @@ form input, form textarea {
 }
 
 .btn-center {
-    margin: 2.5% 0 0 40%;
+    margin: 2.5% 0 0;
 }
 
 .btn-shadow {
@@ -164,8 +164,8 @@ form input, form textarea {
 }
 
 .photos img {
-    width: 180px;
-    height: 180px;
+    width: 27%;
+    height: auto;
     object-fit: cover;
 }
 
@@ -210,6 +210,12 @@ form input, form textarea {
 #dashboard-reviews, #dashboard-searches, #results-reviews {
     text-decoration: underline;
     text-underline-offset: 5px;
+}
+
+.btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 @media (max-width: 600px) {
